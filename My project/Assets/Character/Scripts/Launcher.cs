@@ -21,6 +21,11 @@ public class Launcher : MonoBehaviourPunCallbacks
     public GameObject createRoomScreen;
     public TMP_InputField roomInput;
 
+    public GameObject roomScreen;
+    public TMP_Text roomNameText;
+
+    public GameObject errorScreen;
+    public TMP_Text errorText;
 
     // Start is called before the first frame update 
     void Start()
@@ -38,7 +43,8 @@ public class Launcher : MonoBehaviourPunCallbacks
         loadingScreen.SetActive(false);
         menuButtons.SetActive(false);
         createRoomScreen.SetActive(false);
-
+        roomScreen.SetActive(false);
+        errorScreen.SetActive(false);
     }
 
     public override void OnConnectedToMaster()
@@ -77,6 +83,43 @@ public class Launcher : MonoBehaviourPunCallbacks
             loadingScreen.SetActive(true);
 
         }
+    }
+
+    public override void OnJoinedRoom()
+    {
+        CloseMenu();
+        roomScreen.SetActive(true);
+        roomNameText.text = PhotonNetwork.CurrentRoom.Name;
+
+    }
+
+    public override void OnCreateRoomFailed(short returnCode, string message)
+    {
+        errorText.text = "Failed to create room" + message;
+        CloseMenu();
+        errorScreen.SetActive(true);
+
+    }
+
+    public void CloseErrorScreen()
+    {
+        CloseMenu();
+        menuButtons.SetActive(true);
+    }
+
+    public void LeaveRoom()
+    {
+        PhotonNetwork.LeaveRoom();
+        CloseMenu();
+        loadingtext.text = "Leaving Room...";
+        loadingScreen.SetActive(true);
+
+    }
+
+    public override void OnLeftRoom()
+    {
+        CloseMenu();
+        menuButtons.SetActive(true);
     }
     // Update is called once per frame
     void Update()
