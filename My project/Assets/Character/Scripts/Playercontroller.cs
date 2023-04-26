@@ -18,7 +18,13 @@ public class Playercontroller : MonoBehaviour
     private Camera cam;
     private float yVel;
 
+    public float jumpforce = 3f, gravity = 2.5f;
+
     public CharacterController charCon;
+
+    public Transform groundcheckedPoint;
+    private bool isgrounded;
+    public LayerMask groundLayers;
     // Start is called before the first frame update
     void Start()
     {
@@ -65,10 +71,30 @@ public class Playercontroller : MonoBehaviour
         {
             movement.y = 0f;
         }
+
+        isgrounded = Physics.Raycast(groundcheckedPoint.position, Vector3.down, .25f,groundLayers);
+
+        if (Input.GetButtonDown("Jump") && isgrounded)
+        {
+            movement.y = jumpforce;
+        }
+
+
         movement.y += Physics.gravity.y * Time.deltaTime;
 
         charCon.Move( movement * activeMoveSpeed * Time.deltaTime);
 
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            Cursor.lockState = CursorLockMode.None; 
+        }
+        else if(Cursor.lockState == CursorLockMode.None)
+        {
+            if(Input.GetMouseButtonDown(0))
+            {
+                Cursor.lockState = CursorLockMode.Locked;
+            }
+        }
 
     }
 
