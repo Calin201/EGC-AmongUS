@@ -4,7 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 using TMPro;
 
-public class Launcher : MonoBehaviourPunCallBack
+public class Launcher : MonoBehaviourPunCallbacks
 {
     public static Launcher instance;
     public void Awake()
