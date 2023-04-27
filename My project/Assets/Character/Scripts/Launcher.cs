@@ -38,6 +38,8 @@ public class Launcher : MonoBehaviourPunCallbacks
     private bool hasSetNickname;
 
     public string levelToPlay;
+
+    public GameObject startButton;
     // Start is called before the first frame update 
     void Start()
     {
@@ -127,6 +129,15 @@ public class Launcher : MonoBehaviourPunCallbacks
         roomScreen.SetActive(true);
         roomNameText.text = PhotonNetwork.CurrentRoom.Name;
         ListAllPlayers();
+
+        if(PhotonNetwork.IsMasterClient)
+        {
+            startButton.SetActive(true);
+
+        }else
+        {
+            startButton.SetActive(false);
+        }
 
     }
 
