@@ -27,6 +27,11 @@ public class Launcher : MonoBehaviourPunCallbacks
     public GameObject errorScreen;
     public TMP_Text errorText;
 
+    public GameObject roombrowser;
+    public Roombutton theRoombutton;
+    private List<Roombutton> allRoombuttons= new List<Roombutton>();
+
+
     // Start is called before the first frame update 
     void Start()
     {
@@ -45,6 +50,7 @@ public class Launcher : MonoBehaviourPunCallbacks
         createRoomScreen.SetActive(false);
         roomScreen.SetActive(false);
         errorScreen.SetActive(false);
+        roombrowser.SetActive(false);
     }
 
     public override void OnConnectedToMaster()
@@ -74,7 +80,7 @@ public class Launcher : MonoBehaviourPunCallbacks
         if(!string.IsNullOrEmpty(roomInput.text))
         {
             RoomOptions options = new RoomOptions();
-            options.MaxPlayers = 2;
+            options.MaxPlayers = 3;
             
             PhotonNetwork.CreateRoom(roomInput.text,options);
 
@@ -120,6 +126,53 @@ public class Launcher : MonoBehaviourPunCallbacks
     {
         CloseMenu();
         menuButtons.SetActive(true);
+    }
+
+    public void OpenRoomBrowser()
+    {
+        CloseMenu();
+        roombrowser.SetActive(true);
+    }
+    public void CloseRoomBrowser()
+    {
+        CloseMenu();
+        menuButtons.SetActive(true);
+    }
+
+    public override void OnRoomListUpdate(List<RoomInfo> roomlist)
+    {
+        foreach (Roombutton rb in allRoombuttons)
+        {
+            Destroy(rb.gameObject);
+        }
+        allRoombuttons.Clear();
+        theRoombutton.gameObject.SetActive(false);
+
+        for (int i = 0; i < roomlist.Count; i++)
+        {
+            if (roomlist[i].PlayerCount != roomlist[i].MaxPlayers && !roomlist[i].RemovedFromList)
+            {
+                Roombutton newbutton = Instantiate(theRoombutton, theRoombutton.transform.parent);
+                newbutton.SetButtonDetails(roomlist[i]);
+                newbutton.gameObject.SetActive(true);
+
+                allRoombuttons.Add(newbutton);
+            }
+        }
+    }
+
+    public void JoinRoom(RoomInfo inputInfo)
+    {
+        PhotonNetwork.JoinRoom(inputInfo.Name);
+        CloseMenu();
+        loadingtext.text = "Joining room...";
+        loadingScreen.SetActive(true);
+
+    }
+
+    public void QuitGame()
+    {
+        Application.Quit();
     }
     // Update is called once per frame
     void Update()
