@@ -14,7 +14,7 @@ public class PlayerSpawn : MonoBehaviour
     }
 
     public GameObject playerPrefab;
-    public GameObject player;
+    private GameObject player;
 
    
     // Start is called before the first frame update

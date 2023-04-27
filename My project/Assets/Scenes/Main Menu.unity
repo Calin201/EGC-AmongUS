@@ -1467,6 +1467,7 @@ MonoBehaviour:
   nameInputScreen: {fileID: 1907216980}
   nameInputText: {fileID: 1538067061}
   levelToPlay: scena
+  startButton: {fileID: 730348305}
 --- !u!1 &627088134
 GameObject:
   m_ObjectHideFlags: 0
@@ -1636,6 +1637,12 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 721343601}
   m_CullTransparentMesh: 1
+--- !u!1 &730348305 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5990997525739261944, guid: 9b5e8fb6ab403f445b65f439fd92417a,
+    type: 3}
+  m_PrefabInstance: {fileID: 1546412976}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &736135941
 PrefabInstance:
   m_ObjectHideFlags: 0
