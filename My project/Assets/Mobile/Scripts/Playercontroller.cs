@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using TMPro;
+using UnityEngine.UI;
 
 public class Playercontroller : MonoBehaviourPunCallbacks
 {
@@ -27,18 +28,29 @@ public class Playercontroller : MonoBehaviourPunCallbacks
     public Transform groundcheckedPoint;
     private bool isgrounded;
     public LayerMask groundLayers;
-    [SerializeField]
+
     public TMP_Text names;
+    public GameObject CanvasName;
+    
     // Start is called before the first frame update
     void Start()
     {
+        if(GetComponent<PhotonView>().IsMine == false)
+        {
+            CanvasName.SetActive(true);
+            names.text = GetComponent<PhotonView>().Controller.NickName;
+        }
+
+        
         Cursor.lockState = CursorLockMode.Locked;
 
         cam = Camera.main;
 
-       
+        
 
     }
+
+   
 
     // Update is called once per frame
     void Update()

@@ -241,6 +241,7 @@ MonoBehaviour:
   groundLayers:
     serializedVersion: 2
     m_Bits: 576
+  names: {fileID: 0}
 --- !u!23 &499954223
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1008,6 +1009,7 @@ MonoBehaviour:
   groundLayers:
     serializedVersion: 2
     m_Bits: 576
+  names: {fileID: 0}
 --- !u!1 &4375230986447650894
 GameObject:
   m_ObjectHideFlags: 0
