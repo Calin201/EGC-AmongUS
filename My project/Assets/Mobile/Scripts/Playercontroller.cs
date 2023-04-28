@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using TMPro;
 
 public class Playercontroller : MonoBehaviourPunCallbacks
 {
@@ -26,12 +27,17 @@ public class Playercontroller : MonoBehaviourPunCallbacks
     public Transform groundcheckedPoint;
     private bool isgrounded;
     public LayerMask groundLayers;
+    [SerializeField]
+    public TMP_Text names;
     // Start is called before the first frame update
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
 
         cam = Camera.main;
+
+       
+
     }
 
     // Update is called once per frame
@@ -110,6 +116,7 @@ public class Playercontroller : MonoBehaviourPunCallbacks
         {
             GetComponent<Playercontroller>().enabled = false;
         }
+
     }
 
     private void LateUpdate()
