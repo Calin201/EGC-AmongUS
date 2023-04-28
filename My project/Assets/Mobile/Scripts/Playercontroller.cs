@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class Playercontroller : MonoBehaviour
+public class Playercontroller : MonoBehaviourPunCallbacks
 {
     public Transform viewPoint; //camera controll
     public float mouseSensitivity = 1f;
@@ -36,71 +37,88 @@ public class Playercontroller : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        mouseinput = new Vector2(Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y")) * mouseSensitivity;
-        transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y + mouseinput.x, transform.rotation.eulerAngles.z);
-        verticalRotStore += mouseinput.y;
-        verticalRotStore = Mathf.Clamp(verticalRotStore, -60f, 60f);
-
-        if (invertLook)
+        if (photonView)
         {
-            viewPoint.rotation = Quaternion.Euler(verticalRotStore, viewPoint.rotation.eulerAngles.y, viewPoint.rotation.eulerAngles.z);
-        }else
-        {
-            viewPoint.rotation = Quaternion.Euler(-verticalRotStore, viewPoint.rotation.eulerAngles.y, viewPoint.rotation.eulerAngles.z);
-
-        }
-
-        movedirection = new Vector3(Input.GetAxisRaw("Horizontal"), 0f, Input.GetAxisRaw("Vertical"));
-
-        if(Input.GetKey(KeyCode.LeftShift))
-        {
-            activeMoveSpeed = runSpeed;
-        }
-        else
-        {
-            activeMoveSpeed = moveSpeed;
-        }
-        float yvel = movement.y;
-       
-       
-
-        movement = (transform.forward * movedirection.z + transform.right * movedirection.x).normalized * activeMoveSpeed;
-        movement.y = yvel;
-
-        if(charCon.isGrounded)
-        {
-            movement.y = 0f;
-        }
-
-        isgrounded = Physics.Raycast(groundcheckedPoint.position, Vector3.down, .25f,groundLayers);
-
-        if (Input.GetButtonDown("Jump") && isgrounded)
-        {
-            movement.y = jumpforce;
-        }
 
 
-        movement.y += Physics.gravity.y * Time.deltaTime;
+            mouseinput = new Vector2(Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y")) * mouseSensitivity;
+            transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y + mouseinput.x, transform.rotation.eulerAngles.z);
+            verticalRotStore += mouseinput.y;
+            verticalRotStore = Mathf.Clamp(verticalRotStore, -60f, 60f);
 
-        charCon.Move( movement * activeMoveSpeed * Time.deltaTime);
-
-        if(Input.GetKeyDown(KeyCode.Escape))
-        {
-            Cursor.lockState = CursorLockMode.None; 
-        }
-        else if(Cursor.lockState == CursorLockMode.None)
-        {
-            if(Input.GetMouseButtonDown(0))
+            if (invertLook)
             {
-                Cursor.lockState = CursorLockMode.Locked;
+                viewPoint.rotation = Quaternion.Euler(verticalRotStore, viewPoint.rotation.eulerAngles.y, viewPoint.rotation.eulerAngles.z);
+            }
+            else
+            {
+                viewPoint.rotation = Quaternion.Euler(-verticalRotStore, viewPoint.rotation.eulerAngles.y, viewPoint.rotation.eulerAngles.z);
+
+            }
+
+            movedirection = new Vector3(Input.GetAxisRaw("Horizontal"), 0f, Input.GetAxisRaw("Vertical"));
+
+            if (Input.GetKey(KeyCode.LeftShift))
+            {
+                activeMoveSpeed = runSpeed;
+            }
+            else
+            {
+                activeMoveSpeed = moveSpeed;
+            }
+            float yvel = movement.y;
+
+
+
+            movement = (transform.forward * movedirection.z + transform.right * movedirection.x).normalized * activeMoveSpeed;
+            movement.y = yvel;
+
+            if (charCon.isGrounded)
+            {
+                movement.y = 0f;
+            }
+
+            isgrounded = Physics.Raycast(groundcheckedPoint.position, Vector3.down, .25f, groundLayers);
+
+            if (Input.GetButtonDown("Jump") && isgrounded)
+            {
+                movement.y = jumpforce;
+            }
+
+
+            movement.y += Physics.gravity.y * Time.deltaTime;
+
+            charCon.Move(movement * activeMoveSpeed * Time.deltaTime);
+
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                Cursor.lockState = CursorLockMode.None;
+            }
+            else if (Cursor.lockState == CursorLockMode.None)
+            {
+                if (Input.GetMouseButtonDown(0))
+                {
+                    Cursor.lockState = CursorLockMode.Locked;
+                }
             }
         }
+    }
 
+    private void Awake()
+    {
+        if (!photonView.IsMine)
+        {
+            GetComponent<Playercontroller>().enabled = false;
+        }
     }
 
     private void LateUpdate()
     {
-        cam.transform.position = viewPoint.position;
-        cam.transform.rotation = viewPoint.rotation;
+        if(photonView.IsMine)
+        {
+            cam.transform.position = viewPoint.position;
+            cam.transform.rotation = viewPoint.rotation;
+        }
+        
     }
 }
