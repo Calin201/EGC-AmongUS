@@ -31,13 +31,10 @@ public class Playercontroller : MonoBehaviourPunCallbacks
 
     public TMP_Text names;
     public GameObject CanvasName;
-
-   
     
     // Start is called before the first frame update
     void Start()
     {
-       
         if(GetComponent<PhotonView>().IsMine == false)
         {
             CanvasName.SetActive(true);
@@ -54,12 +51,10 @@ public class Playercontroller : MonoBehaviourPunCallbacks
     }
 
    
-   
 
     // Update is called once per frame
     void Update()
     {
-        
         if (photonView)
         {
 
@@ -126,7 +121,7 @@ public class Playercontroller : MonoBehaviourPunCallbacks
             }
         }
     }
-   
+
     private void Awake()
     {
         if (!photonView.IsMine)
