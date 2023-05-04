@@ -6,26 +6,36 @@ using UnityEngine;
 using System.Linq;
 using Photon.Realtime;
 
-public class TasksManager : MonoBehaviourPunCallbacks
+public class TaskManager : MonoBehaviourPunCallbacks
 {
     
 
-    public List<TMP_Text> tasks;
+    public List<TMP_Text> tasks= new List<TMP_Text>();
     public TMP_Text taskPrefab;
     public RectTransform listPanel;
     // Start is called before the first frame update
 
+    private void Awake()
+    {
+        if(!photonView.IsMine)
+        {
+            GetComponent<TaskManager>().enabled= false;
+        }
+    }
 
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
     {
         if (changedProps.ContainsKey("AssignedTasks"))
         {
+            if (targetPlayer.UserId!=PhotonNetwork.LocalPlayer.UserId) return;
             string[] customProps = (string[])PhotonNetwork.LocalPlayer.CustomProperties["AssignedTasks"];
             if (customProps == null || customProps.Length <= 0)
                 return;
 
+            List<string> tasccs = ((string[])PhotonNetwork.LocalPlayer.CustomProperties["AssignedTasks"]).ToList<string>();
 
             List<string> assignedTasks = ((string[])PhotonNetwork.LocalPlayer.CustomProperties["AssignedTasks"]).ToList<string>();
+
             Debug.Log("S-a schimbat si s-a propagat");
             TMP_Text assignedTaskText;
 

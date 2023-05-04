@@ -11,9 +11,9 @@ public class Overlay : MonoBehaviourPun
     [SerializeField] private TMP_Text nameText;
     public GameObject overlay;
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
-        if(photonView.IsMine) { return; }
+        if(photonView.IsMine) { overlay.SetActive(true); }
         else { overlay.SetActive(false); }
     }
 

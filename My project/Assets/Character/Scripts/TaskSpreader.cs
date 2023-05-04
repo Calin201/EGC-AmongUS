@@ -14,35 +14,31 @@ public class TaskSpreader : MonoBehaviourPunCallbacks
     private bool isMine;
     public int numberOfTasksPerPlayer;
     // Start is called before the first frame update
-    void Awake()
+    void Start()
     {
-        enabled = false;
-        if (!PhotonNetwork.IsMasterClient)
-        {
-            // Disable the script on non-master clients
-            enabled = true;
-            return;
-        }
-        isMine = photonView.IsMine;
-        if (isMine)
+        if (PhotonNetwork.IsMasterClient)
         {
             AssignTasks();
-        }
-        else
-        {
-            GetComponent<TasksManager>().enabled = false;
         }
     }
 
     void AssignTasks()
     {
         Debug.Log("AssignTasks");
+        List<int> playerIds=new List<int>(PhotonNetwork.CurrentRoom.Players.Keys);
+        ShuffleList<int>(playerIds);
         List<string> taskListCopy = new List<string>(taskList);
-        ShuffleList<string>(taskListCopy);
-        List<string> tasksPerPlayer = taskListCopy.Take(numberOfTasksPerPlayer).ToList();
-        ExitGames.Client.Photon.Hashtable playerProperties = new ExitGames.Client.Photon.Hashtable();
-        playerProperties["AssignedTasks"] = tasksPerPlayer.ToArray();
-        PhotonNetwork.LocalPlayer.SetCustomProperties(playerProperties);
+        foreach (int id in playerIds)
+        {
+            if (!PhotonNetwork.CurrentRoom.Players[id].CustomProperties.ContainsKey("AssignedTasks"))
+            {
+                ShuffleList<string>(taskListCopy);
+                List<string> tasksPerPlayer = taskListCopy.Take(numberOfTasksPerPlayer).ToList();
+                ExitGames.Client.Photon.Hashtable playerProperties = new ExitGames.Client.Photon.Hashtable();
+                playerProperties["AssignedTasks"] = tasksPerPlayer.ToArray();
+                PhotonNetwork.CurrentRoom.Players[id].SetCustomProperties(playerProperties);
+            }
+        }
     }
     void ShuffleList<T>(List<T> list)
     {

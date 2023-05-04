@@ -1044,7 +1044,7 @@ MonoBehaviour:
   - Make a game
   - Delete the recycle bin
   - Put the plush corectly
-  numberOfTasksPerPlayer: 4
+  numberOfTasksPerPlayer: 6
 --- !u!1 &1785082890
 GameObject:
   m_ObjectHideFlags: 0
