@@ -448,10 +448,5 @@ namespace Photon.Realtime
 
             return false;
         }
-
-        public global::Playercontroller GetPlayerController()
-        {
-            throw new NotImplementedException();
-        }
     }
 }

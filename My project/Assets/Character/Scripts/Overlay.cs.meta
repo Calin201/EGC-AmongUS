@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 455a4192fde6cdc408ecd185a4ba848a
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - nameText: {instanceID: 0}
+  - overlay: {fileID: 8205239137211409157, guid: 4da5148c9161e9d48a53365816ef39e5,
+      type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

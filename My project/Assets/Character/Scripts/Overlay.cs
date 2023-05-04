@@ -6,13 +6,15 @@ using TMPro;
 
 using UnityEngine;
 
-public class NameTag : MonoBehaviourPun
+public class Overlay : MonoBehaviourPun
 {
     [SerializeField] private TMP_Text nameText;
+    public GameObject overlay;
     // Start is called before the first frame update
     void Start()
     {
         if(photonView.IsMine) { return; }
+        else { overlay.SetActive(false); }
     }
 
 

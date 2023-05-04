@@ -6,15 +6,15 @@ using UnityEngine.UI;
 public class TaskBar : MonoBehaviour
 {
     public Slider slider;
-    public int maxTask = 100;
-    public int minTask = 0;
-    public int currentTask;
+    public int maxTasks = 100;
+    public int minTasks = 0;
+    public int currentTasksCompleted;
     public TaskBar taskbar;
     private void Start()
     {
-        currentTask = minTask;
+        currentTasksCompleted = minTasks;
         slider.minValue = 0;
-        taskbar.SetMinTask(currentTask);
+        taskbar.SetMinTask(currentTasksCompleted);
     }
     public void Update()
     {
@@ -41,9 +41,9 @@ public class TaskBar : MonoBehaviour
     }
     void TaskDone(int task)
     {
-        currentTask += task;
-        taskbar.SetTasks(currentTask);
-        slider.value = currentTask;
+        currentTasksCompleted += task;
+        taskbar.SetTasks(currentTasksCompleted);
+        slider.value = currentTasksCompleted;
     }
     
 }
