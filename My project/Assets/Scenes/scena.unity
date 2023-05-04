@@ -152,12 +152,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 100236325}
   m_LocalRotation: {x: -0, y: -0, z: -0.375438, w: 0.9268475}
-  m_LocalPosition: {x: 6.52, y: 2.36, z: 8.41}
+  m_LocalPosition: {x: 42.09, y: 41.252052, z: -211.2062}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1906950643}
-  m_RootOrder: 3
+  m_Father: {fileID: 1458887602}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -44.103}
 --- !u!135 &100236327
 SphereCollider:
@@ -349,12 +349,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 375616084}
   m_LocalRotation: {x: -0, y: -0, z: -0.375438, w: 0.9268475}
-  m_LocalPosition: {x: -5.78, y: 2.36, z: 8.41}
+  m_LocalPosition: {x: 33.158985, y: 41.252052, z: -211.2062}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1906950643}
-  m_RootOrder: 4
+  m_Father: {fileID: 1458887602}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -44.103}
 --- !u!135 &375616086
 SphereCollider:
@@ -942,6 +942,39 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1458887601
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1458887602}
+  m_Layer: 0
+  m_Name: Tasks
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1458887602
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1458887601}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -38.938984, y: -38.89205, z: 219.61621}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 100236326}
+  - {fileID: 375616085}
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1500431178
 GameObject:
   m_ObjectHideFlags: 0
@@ -1299,6 +1332,7 @@ MonoBehaviour:
   - Make a game
   - Delete the recycle bin
   - Put the plush corectly
+  listOfTasks: {fileID: 0}
   numberOfTasksPerPlayer: 4
 --- !u!1 &1785082890
 GameObject:
@@ -1449,8 +1483,6 @@ Transform:
   - {fileID: 1533684715}
   - {fileID: 2019688466}
   - {fileID: 1571469990}
-  - {fileID: 100236326}
-  - {fileID: 375616085}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
