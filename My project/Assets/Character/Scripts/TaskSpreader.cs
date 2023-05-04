@@ -10,7 +10,8 @@ using UnityEngine;
 public class TaskSpreader : MonoBehaviourPunCallbacks
 {
     [SerializeField] public string[] taskList = { "Drop the lab", "ETH circuits", "Mouse algorithm", "Switch", "Make a game", "Delete the recycle bin", "Put the plush corectly" };
-
+    [SerializeField] public GameObject listOfTasks;
+    
     private bool isMine;
     public int numberOfTasksPerPlayer;
     // Start is called before the first frame update
@@ -20,6 +21,7 @@ public class TaskSpreader : MonoBehaviourPunCallbacks
         {
             AssignTasks();
         }
+
     }
 
     void AssignTasks()

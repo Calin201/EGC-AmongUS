@@ -184,6 +184,25 @@ public class Playercontroller : MonoBehaviourPun
                 }
             }
         }
+        if(other.tag=="TaskItem")
+        {
+            GameObject taskObject= other.gameObject;
+            var a=taskObject.GetComponent<Outline>();
+            a.enabled= true;
+
+            Debug.Log(taskObject.name);
+        }
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.tag == "TaskItem")
+        {
+            GameObject taskObject = other.gameObject;
+            var a = taskObject.GetComponent<Outline>();
+            a.enabled = false;
+
+            //Debug.Log(taskObject.name);
+        }
     }
     [PunRPC]
     void KillTarget()
