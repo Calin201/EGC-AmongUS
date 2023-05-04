@@ -4,6 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 using TMPro;
 using Photon.Realtime;
+using System.Data;
 
 public class Launcher : MonoBehaviourPunCallbacks
 {
@@ -40,6 +41,9 @@ public class Launcher : MonoBehaviourPunCallbacks
     public string levelToPlay;
 
     public GameObject startButton;
+
+    private string[] roles = { "Imposter", "Crewmate", "Crewmate", "Crewmate", "Crewmate", "Crewmate" };
+    public int currentPlayerIndex = 0;
     // Start is called before the first frame update 
     void Start()
     {
@@ -267,10 +271,44 @@ public class Launcher : MonoBehaviourPunCallbacks
 
     public void StartGame()
     {
-        PhotonNetwork.LoadLevel(levelToPlay);
+        if (PhotonNetwork.IsMasterClient)
+        {
+            // Get all the players in the room
+            List<Player> players = new List<Player>(PhotonNetwork.PlayerList);
+            currentPlayerIndex = players.Count;
+            // Shuffle the players list to randomize the order
+            for (int i = 0; i < players.Count; i++)
+            {
+                Player temp = players[i];
+                int randomIndex = Random.Range(i, players.Count);
+                players[i] = players[randomIndex];
+                players[randomIndex] = temp;
+            }
+
+            // Assign roles to each player
+            for (int i = 0; i < players.Count; i++)
+            {
+                int roleIndex = i % roles.Length;
+                players[i].SetCustomProperties(new ExitGames.Client.Photon.Hashtable { { "Role", roles[roleIndex] } });
+            }
+        }
+        
 
     }
 
+    public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
+    {
+        if (PhotonNetwork.IsMasterClient && changedProps.ContainsKey("Role"))
+        {
+            currentPlayerIndex--;
+
+            // If all players have a role assigned, start the game
+            if (currentPlayerIndex == 0)
+            {
+                PhotonNetwork.LoadLevel(levelToPlay);
+            }
+        }
+    }
     public void QuitGame()
     {
         Application.Quit();

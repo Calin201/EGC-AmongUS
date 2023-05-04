@@ -1,7 +1,4 @@
-using Palmmedia.ReportGenerator.Core;
-
 using Photon.Pun;
-
 using System.Collections;
 using System.Collections.Generic;
 
@@ -16,25 +13,17 @@ public class NameTag : MonoBehaviourPun
     void Start()
     {
         if(photonView.IsMine) { return; }
-        setName();
     }
 
-    private void setName()
-    {
-        if (GetComponent<PhotonView>().IsMine)
-        {
-            nameText.text = PhotonNetwork.NickName;
-        }
-        else
 
-        {
-            nameText.text = GetComponent<PhotonView>().Owner.NickName;
-        }
-    }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if(nameText !=null)
+        {
+            nameText.transform.LookAt(Camera.main.transform.position);
+            nameText.transform.Rotate(0, 180, 0);
+        } 
     }
 }
