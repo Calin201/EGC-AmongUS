@@ -9,12 +9,20 @@ using UnityEngine;
 
 public class TaskSpreader : MonoBehaviourPunCallbacks
 {
-    [SerializeField] public string[] taskList = { "Drop the lab", "ETH circuits", "Mouse algorithm", "Switch", "Make a game", "Delete the recycle bin", "Put the plush corectly" };
+    [SerializeField] public string[] taskList;// = { "Drop the lab", "ETH circuits", "Mouse algorithm", "Switch", "Make a game", "Delete the recycle bin", "Put the plush corectly" };
     [SerializeField] public GameObject listOfTasks;
     
     private bool isMine;
     public int numberOfTasksPerPlayer;
     // Start is called before the first frame update
+    private void Awake()
+    {
+        var myObject = GameObject.Find("Tasks");
+        Transform myObjectTransform = myObject.transform;
+        var myObjectList = new List<GameObject>(myObjectTransform.GetComponentsInChildren<Transform>().Select(t => t.gameObject));
+        myObjectList.Remove(myObject);
+        taskList=myObjectList.Select(t => t.name).ToArray();
+    }
     void Start()
     {
         if (PhotonNetwork.IsMasterClient)

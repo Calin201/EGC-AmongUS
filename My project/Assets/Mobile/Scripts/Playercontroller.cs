@@ -7,6 +7,7 @@ using UnityEngine.UI;
 using UnityEngine.InputSystem;
 using System;
 using Photon.Realtime;
+using Unity.VisualScripting;
 
 public class Playercontroller : MonoBehaviourPun
 {
@@ -42,6 +43,8 @@ public class Playercontroller : MonoBehaviourPun
     [SerializeField] Collider myColider;
 
     bool isDead;
+
+   public GameObject panel; 
 
     private void Awake()
     {
@@ -184,26 +187,24 @@ public class Playercontroller : MonoBehaviourPun
                 }
             }
         }
-        if(other.tag=="TaskItem")
+        if(other.CompareTag("TaskItem"))
         {
-            GameObject taskObject= other.gameObject;
-            var a=taskObject.GetComponent<Outline>();
-            a.enabled= true;
-
-            Debug.Log(taskObject.name);
+            panel.SetActive(true);
+            
         }
+       
     }
+
     private void OnTriggerExit(Collider other)
     {
         if (other.tag == "TaskItem")
         {
-            GameObject taskObject = other.gameObject;
-            var a = taskObject.GetComponent<Outline>();
-            a.enabled = false;
+            panel.SetActive(false);
 
             //Debug.Log(taskObject.name);
         }
     }
+
     [PunRPC]
     void KillTarget()
     {

@@ -8,8 +8,9 @@ using Photon.Realtime;
 
 public class TaskManager : MonoBehaviourPunCallbacks
 {
-    
-
+    public GameObject tasksOnMap;
+    private GameObject myObject;
+    public List<GameObject> myObjectList;
     public List<TMP_Text> tasks= new List<TMP_Text>();
     public TMP_Text taskPrefab;
     public RectTransform listPanel;
@@ -17,7 +18,14 @@ public class TaskManager : MonoBehaviourPunCallbacks
 
     private void Awake()
     {
-        if(!photonView.IsMine)
+       // tasksOnMap = GameObject.Find("ETH circuits");
+        myObject = GameObject.Find("Tasks");
+        Transform myObjectTransform = myObject.transform;
+
+        myObjectList = new List<GameObject>(myObjectTransform.GetComponentsInChildren<Transform>().Select(t => t.gameObject));
+        myObjectList.Remove(myObject);
+
+        if (!photonView.IsMine)
         {
             GetComponent<TaskManager>().enabled= false;
         }
@@ -42,8 +50,19 @@ public class TaskManager : MonoBehaviourPunCallbacks
             Debug.Log(assignedTasks.Count);
 
             tasks = new List<TMP_Text>(assignedTasks.Count);
+            int i = 0;
             foreach (string task in assignedTasks)
             {
+                //Debug.Log("outline: "+);
+                foreach(GameObject tasks in myObjectList)
+                {
+                    if (tasks.name == task)
+                    {
+                        tasks.SetActive(true);
+                        tasks.GetComponent<Outline>().enabled = true;
+
+                    }
+                }
                 Debug.Log(task);
                 assignedTaskText = Instantiate(taskPrefab, listPanel);
                 assignedTaskText.text = task;
