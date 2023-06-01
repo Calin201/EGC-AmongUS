@@ -44,7 +44,8 @@ public class Playercontroller : MonoBehaviourPun
 
     bool isDead;
 
-   public GameObject panel; 
+   public GameObject panel;
+    public GameObject button2UI;
 
     private void Awake()
     {
@@ -80,6 +81,8 @@ public class Playercontroller : MonoBehaviourPun
         //lock the cursor and set the camera
         Cursor.lockState = CursorLockMode.Locked;
         cam = Camera.main;
+        button2UI.SetActive(true);
+        
 
 
     }
@@ -170,7 +173,8 @@ public class Playercontroller : MonoBehaviourPun
     }
     private void OnTriggerEnter(Collider other)
     {
-        if(other.tag == "Player")
+        Image buttonImage = panel.GetComponentInChildren<Image>();
+        if (other.tag == "Player")
         {
             Playercontroller tempTarget = other.GetComponent<Playercontroller>();   
             if(instance.role== "Imposter")
@@ -182,22 +186,59 @@ public class Playercontroller : MonoBehaviourPun
                 }
                 else
                 {
+                   
                     //Crewmate assinged
                     target = tempTarget;
+                    
+                    Sprite imposterSprite = Resources.Load<Sprite>("kill");
+                    if (imposterSprite != null)
+                    {
+                       
+                        buttonImage.sprite = imposterSprite;
+                        panel.SetActive(true);
+                    }
+                    else
+                    {
+                        Debug.LogError("Failed to load ImposterSprite!");
+                    }
+                }
+
+               
+            }
+        }
+        if (other.CompareTag("TaskItem") && instance.role=="Crewmate")
+        {
+            panel.SetActive(true);
+           // Image buttonImage = panel.GetComponentInChildren<Image>();
+
+            if (instance.role == "Crewmate")
+            {
+                Sprite defaultSprite = Resources.Load<Sprite>("qvorpkw1cxy51");
+                if (defaultSprite != null)
+                {
+                    buttonImage.sprite = defaultSprite;
+                }
+                else
+                {
+                    Debug.LogError("Failed to load default sprite!");
                 }
             }
         }
-        if(other.CompareTag("TaskItem"))
-        {
-            panel.SetActive(true);
-            
-        }
+
+      
        
     }
 
     private void OnTriggerExit(Collider other)
     {
         if (other.tag == "TaskItem")
+        {
+            panel.SetActive(false);
+
+            //Debug.Log(taskObject.name);
+        }
+
+        if (other.tag == "Player")
         {
             panel.SetActive(false);
 
