@@ -704,6 +704,8 @@ MonoBehaviour:
   role: 
   myColider: {fileID: 0}
   panel: {fileID: 0}
+  button2UI: {fileID: 0}
+  ETH_Canvas: {fileID: 0}
 --- !u!23 &499954223
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -992,6 +994,8 @@ MonoBehaviour:
   role: 
   myColider: {fileID: 0}
   panel: {fileID: 0}
+  button2UI: {fileID: 0}
+  ETH_Canvas: {fileID: 0}
 --- !u!23 &661980546
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -2065,6 +2069,8 @@ MonoBehaviour:
   role: 
   myColider: {fileID: 0}
   panel: {fileID: 0}
+  button2UI: {fileID: 0}
+  ETH_Canvas: {fileID: 0}
 --- !u!1 &4375230986447650894
 GameObject:
   m_ObjectHideFlags: 0

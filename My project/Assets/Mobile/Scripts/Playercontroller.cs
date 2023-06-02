@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
@@ -46,6 +46,10 @@ public class Playercontroller : MonoBehaviourPun
 
    public GameObject panel;
     public GameObject button2UI;
+
+    public GameObject ETH_Canvas;
+ 
+    private bool panelActive = false;
 
     private void Awake()
     {
@@ -159,6 +163,14 @@ public class Playercontroller : MonoBehaviourPun
             {
                 photonView.RPC("KillTarget",RpcTarget.All);
             }
+
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+               
+                    panelActive = !panelActive; // Inversați starea variabilei panelActive
+                ETH_Canvas.SetActive(panelActive);
+
+            }
         }
     }
 
@@ -222,6 +234,18 @@ public class Playercontroller : MonoBehaviourPun
                 {
                     Debug.LogError("Failed to load default sprite!");
                 }
+            }
+        }
+
+        if(other.CompareTag("TaskItem") && instance.role == "Crewmate")
+        {
+
+           
+            if (other.name == "ETH circuits")
+            {
+                // Activează panoul și setează starea activă a acestuia pe true
+                ETH_Canvas.SetActive(panelActive);
+              
             }
         }
 
