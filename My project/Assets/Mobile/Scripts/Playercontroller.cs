@@ -50,6 +50,8 @@ public class Playercontroller : MonoBehaviourPun
     public GameObject ETH_Canvas;
  
     private bool panelActive = false;
+    private bool isColliding = false;
+    private bool isCurrentTaskOutlineActive = false;
 
     private void Awake()
     {
@@ -164,14 +166,30 @@ public class Playercontroller : MonoBehaviourPun
                 photonView.RPC("KillTarget",RpcTarget.All);
             }
 
-            if (Input.GetKeyDown(KeyCode.E))
+            if (Input.GetKeyDown(KeyCode.E) && isCurrentTaskOutlineActive)
             {
-               
-                    panelActive = !panelActive; // Inversați starea variabilei panelActive
+                panelActive = !panelActive;
                 ETH_Canvas.SetActive(panelActive);
-
             }
         }
+    }
+
+    private bool IsTaskOutlineActive(string taskName)
+    {
+        GameObject taskObject = GameObject.Find(taskName);
+
+        if (taskObject != null)
+        {
+            Outline outline = taskObject.GetComponent<Outline>();
+            if (outline != null && outline.enabled)
+            {
+                // Task-ul are outline activ
+                return true;
+            }
+        }
+
+        // Task-ul nu are outline activ sau nu a fost găsit în scenă
+        return false;
     }
 
     private void LateUpdate()
@@ -182,6 +200,8 @@ public class Playercontroller : MonoBehaviourPun
             cam.transform.position = viewPoint.position;
             cam.transform.rotation = viewPoint.rotation;
         }
+
+      
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -236,21 +256,18 @@ public class Playercontroller : MonoBehaviourPun
                 }
             }
         }
-
-        if(other.CompareTag("TaskItem") && instance.role == "Crewmate")
+        if (other.CompareTag("TaskItem") && instance.role == "Crewmate")
         {
-
-           
-            if (other.name == "ETH circuits")
+            isColliding = true;
+            string taskName = other.gameObject.name;
+            if (IsTaskOutlineActive(taskName))
             {
-                // Activează panoul și setează starea activă a acestuia pe true
-                ETH_Canvas.SetActive(panelActive);
-              
+                isCurrentTaskOutlineActive = true;
             }
         }
 
-      
-       
+
+
     }
 
     private void OnTriggerExit(Collider other)
@@ -267,6 +284,11 @@ public class Playercontroller : MonoBehaviourPun
             panel.SetActive(false);
 
             //Debug.Log(taskObject.name);
+        }
+        if (other.CompareTag("TaskItem") && instance.role == "Crewmate")
+        {
+            isColliding = false;
+            isCurrentTaskOutlineActive = false;
         }
     }
 
