@@ -44,14 +44,15 @@ public class Playercontroller : MonoBehaviourPun
 
     bool isDead;
 
-   public GameObject panel;
+    public GameObject panel;
     public GameObject button2UI;
 
     public GameObject ETH_Canvas;
- 
+
     private bool panelActive = false;
     private bool isColliding = false;
     private bool isCurrentTaskOutlineActive = false;
+    private bool doingTask = false;
 
     private void Awake()
     {
@@ -88,12 +89,12 @@ public class Playercontroller : MonoBehaviourPun
         Cursor.lockState = CursorLockMode.Locked;
         cam = Camera.main;
         button2UI.SetActive(true);
-        
+
 
 
     }
 
-   
+
 
     // Update is called once per frame
     void Update()
@@ -103,18 +104,22 @@ public class Playercontroller : MonoBehaviourPun
             //movement
             {
                 mouseinput = new Vector2(Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y")) * mouseSensitivity;
-                transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y + mouseinput.x, transform.rotation.eulerAngles.z);
-                verticalRotStore += mouseinput.y;
-                verticalRotStore = Mathf.Clamp(verticalRotStore, -60f, 60f);
+                if (!panelActive)
+                {
+                    transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y + mouseinput.x, transform.rotation.eulerAngles.z);
+                    verticalRotStore += mouseinput.y;
+                    verticalRotStore = Mathf.Clamp(verticalRotStore, -60f, 60f);
 
-                if (invertLook)
-                {
-                    viewPoint.rotation = Quaternion.Euler(verticalRotStore, viewPoint.rotation.eulerAngles.y, viewPoint.rotation.eulerAngles.z);
+                    if (invertLook)
+                    {
+                        viewPoint.rotation = Quaternion.Euler(verticalRotStore, viewPoint.rotation.eulerAngles.y, viewPoint.rotation.eulerAngles.z);
+                    }
+                    else
+                    {
+                        viewPoint.rotation = Quaternion.Euler(-verticalRotStore, viewPoint.rotation.eulerAngles.y, viewPoint.rotation.eulerAngles.z);
+                    }
                 }
-                else
-                {
-                    viewPoint.rotation = Quaternion.Euler(-verticalRotStore, viewPoint.rotation.eulerAngles.y, viewPoint.rotation.eulerAngles.z);
-                }
+
 
                 movedirection = new Vector3(Input.GetAxisRaw("Horizontal"), 0f, Input.GetAxisRaw("Vertical"));
 
@@ -157,19 +162,27 @@ public class Playercontroller : MonoBehaviourPun
             {
                 if (Input.GetMouseButtonDown(0))
                 {
-                    Cursor.lockState = CursorLockMode.Locked;
+                    if(!panelActive)
+                    {
+                        Cursor.lockState = CursorLockMode.Locked;
+
+                    }
                 }
             }
             //kill command
-            if(Input.GetKeyDown(KeyCode.K)) 
+            if (Input.GetKeyDown(KeyCode.K))
             {
-                photonView.RPC("KillTarget",RpcTarget.All);
+                photonView.RPC("KillTarget", RpcTarget.All);
             }
 
             if (Input.GetKeyDown(KeyCode.E) && isCurrentTaskOutlineActive)
             {
                 panelActive = !panelActive;
                 ETH_Canvas.SetActive(panelActive);
+                Cursor.visible = true;
+                Cursor.lockState = CursorLockMode.None;
+                doingTask = !doingTask;
+
             }
         }
     }
@@ -194,38 +207,38 @@ public class Playercontroller : MonoBehaviourPun
 
     private void LateUpdate()
     {
-        if(photonView.IsMine)
+        if (photonView.IsMine)
         {
             //moving the camera with us
             cam.transform.position = viewPoint.position;
             cam.transform.rotation = viewPoint.rotation;
         }
 
-      
+
     }
     private void OnTriggerEnter(Collider other)
     {
         Image buttonImage = panel.GetComponentInChildren<Image>();
         if (other.tag == "Player")
         {
-            Playercontroller tempTarget = other.GetComponent<Playercontroller>();   
-            if(instance.role== "Imposter")
+            Playercontroller tempTarget = other.GetComponent<Playercontroller>();
+            if (instance.role == "Imposter")
             {
-                if(tempTarget.role== "Imposter")
+                if (tempTarget.role == "Imposter")
                 {
                     //Imposter colided
                     return;
                 }
                 else
                 {
-                   
+
                     //Crewmate assinged
                     target = tempTarget;
-                    
+
                     Sprite imposterSprite = Resources.Load<Sprite>("kill");
                     if (imposterSprite != null)
                     {
-                       
+
                         buttonImage.sprite = imposterSprite;
                         panel.SetActive(true);
                     }
@@ -235,24 +248,28 @@ public class Playercontroller : MonoBehaviourPun
                     }
                 }
 
-               
+
             }
         }
-        if (other.CompareTag("TaskItem") && instance.role=="Crewmate")
+        if (other.CompareTag("TaskItem") && instance.role == "Crewmate")
         {
-            panel.SetActive(true);
-           // Image buttonImage = panel.GetComponentInChildren<Image>();
-
+           
+            // Image buttonImage = panel.GetComponentInChildren<Image>();
+            string taskName = other.gameObject.name;
             if (instance.role == "Crewmate")
             {
-                Sprite defaultSprite = Resources.Load<Sprite>("qvorpkw1cxy51");
-                if (defaultSprite != null)
+                    if(IsTaskOutlineActive(taskName))
                 {
-                    buttonImage.sprite = defaultSprite;
-                }
-                else
-                {
-                    Debug.LogError("Failed to load default sprite!");
+                    panel.SetActive(true);
+                    Sprite defaultSprite = Resources.Load<Sprite>("qvorpkw1cxy51");
+                    if (defaultSprite != null)
+                    {
+                        buttonImage.sprite = defaultSprite;
+                    }
+                    else
+                    {
+                        Debug.LogError("Failed to load default sprite!");
+                    }
                 }
             }
         }
@@ -289,6 +306,10 @@ public class Playercontroller : MonoBehaviourPun
         {
             isColliding = false;
             isCurrentTaskOutlineActive = false;
+            Cursor.visible = false;
+            ETH_Canvas.SetActive(false);
+            doingTask = false;
+            panelActive = false;
         }
     }
 
@@ -327,11 +348,11 @@ public class Playercontroller : MonoBehaviourPun
     {
         //if (photonView.IsMine)
         //{
-            instance.isDead = true;
-            //WIP maybe the player will be disabled
-            instance.myColider.enabled = false;
-            //WIP we make him black for now
-            photonView.RPC("DieChanges", RpcTarget.All);
+        instance.isDead = true;
+        //WIP maybe the player will be disabled
+        instance.myColider.enabled = false;
+        //WIP we make him black for now
+        photonView.RPC("DieChanges", RpcTarget.All);
         //}
     }
     [PunRPC]
