@@ -48,11 +48,14 @@ public class Playercontroller : MonoBehaviourPun
     public GameObject button2UI;
 
     public GameObject ETH_Canvas;
+    public GameObject Drop_The_Lab;
+    public GameObject Switch;
 
     private bool panelActive = false;
     private bool isColliding = false;
     private bool isCurrentTaskOutlineActive = false;
     private bool doingTask = false;
+    private string nume;
 
     private void Awake()
     {
@@ -178,7 +181,23 @@ public class Playercontroller : MonoBehaviourPun
             if (Input.GetKeyDown(KeyCode.E) && isCurrentTaskOutlineActive)
             {
                 panelActive = !panelActive;
-                ETH_Canvas.SetActive(panelActive);
+                if(nume=="ETH circuits")
+                {
+                    ETH_Canvas.SetActive(panelActive);
+                }
+                else
+                    if(nume=="Drop the lab")
+                {
+                    Drop_The_Lab.SetActive(panelActive);
+                }
+                else
+                {
+                    if(nume=="Switch")
+                    {
+                        Switch.SetActive(panelActive);
+                    }
+                }
+               
                 Cursor.visible = true;
                 Cursor.lockState = CursorLockMode.None;
                 doingTask = !doingTask;
@@ -280,6 +299,8 @@ public class Playercontroller : MonoBehaviourPun
             if (IsTaskOutlineActive(taskName))
             {
                 isCurrentTaskOutlineActive = true;
+                nume = taskName;
+
             }
         }
 
@@ -308,8 +329,11 @@ public class Playercontroller : MonoBehaviourPun
             isCurrentTaskOutlineActive = false;
             Cursor.visible = false;
             ETH_Canvas.SetActive(false);
+            Drop_The_Lab.SetActive(false);
+            Switch.SetActive(false);
             doingTask = false;
             panelActive = false;
+            nume = " ";
         }
     }
 

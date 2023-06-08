@@ -34,6 +34,9 @@ public class Tasktriggers : MonoBehaviour
         if (labCollider.bounds.Intersects(binCollider.bounds))
         {
             lab.SetActive(false);
+            GameObject taskObject = GameObject.Find("Drop the lab");
+            Outline outline = taskObject.GetComponent<Outline>();
+            outline.enabled = false;
         } //merge 
         //mai trebuie adaugat + 1 pt taskbar 
         //sa nu mai poti intra pe el dupa ce e gata
