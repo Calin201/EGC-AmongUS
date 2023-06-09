@@ -706,6 +706,8 @@ MonoBehaviour:
   panel: {fileID: 0}
   button2UI: {fileID: 0}
   ETH_Canvas: {fileID: 0}
+  Drop_The_Lab: {fileID: 0}
+  Switch: {fileID: 0}
 --- !u!23 &499954223
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -996,6 +998,8 @@ MonoBehaviour:
   panel: {fileID: 0}
   button2UI: {fileID: 0}
   ETH_Canvas: {fileID: 0}
+  Drop_The_Lab: {fileID: 0}
+  Switch: {fileID: 0}
 --- !u!23 &661980546
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1621,7 +1625,7 @@ MonoBehaviour:
   - Delete the recycle bin
   - Put the plush corectly
   listOfTasks: {fileID: 0}
-  numberOfTasksPerPlayer: 3
+  numberOfTasksPerPlayer: 7
 --- !u!1 &1785082890
 GameObject:
   m_ObjectHideFlags: 0
@@ -2071,6 +2075,8 @@ MonoBehaviour:
   panel: {fileID: 0}
   button2UI: {fileID: 0}
   ETH_Canvas: {fileID: 0}
+  Drop_The_Lab: {fileID: 0}
+  Switch: {fileID: 0}
 --- !u!1 &4375230986447650894
 GameObject:
   m_ObjectHideFlags: 0
