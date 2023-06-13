@@ -1,4 +1,4 @@
-using Photon.Pun;
+﻿using Photon.Pun;
 using Photon.Realtime;
 
 using System.Collections;
@@ -14,6 +14,9 @@ public class TaskBar : MonoBehaviourPunCallbacks
     public int minTasks = 0;
     public int currentTasksCompleted;
     public TaskBar taskbar;
+
+    public GameObject Win_panel;
+    public Button Exit;
     private void Start()
     {
         currentTasksCompleted = minTasks;
@@ -49,8 +52,17 @@ public class TaskBar : MonoBehaviourPunCallbacks
         currentTasksCompleted = task;
         taskbar.SetTasks(currentTasksCompleted);
         slider.value = currentTasksCompleted;
-        Debug.Log("aiciiiii nu merge");
+       
+        if (slider.value >= slider.maxValue)
+        {
+            // Navigare către scena Main Menu
+           // PhotonNetwork.LoadLevel("MainMenu");
+           Win_panel.SetActive(true);
+        }
+       
     }
+
+   
 
     public override void OnRoomPropertiesUpdate(ExitGames.Client.Photon.Hashtable propertiesThatChanged)
     {

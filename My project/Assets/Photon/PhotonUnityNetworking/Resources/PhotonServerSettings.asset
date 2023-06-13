@@ -46,6 +46,9 @@ MonoBehaviour:
   - RPC_AssignTaskToPlayer
   - <Start>g__RPC_AssignTaskToPlayer|4_2
   - Afiseaza
+  - SyncGameWon
+  - PlayerLeftRoom
+  - LeaveRoom
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 0
