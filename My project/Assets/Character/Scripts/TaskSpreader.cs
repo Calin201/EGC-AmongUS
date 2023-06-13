@@ -10,8 +10,8 @@ using UnityEngine;
 public class TaskSpreader : MonoBehaviourPunCallbacks
 {
     [SerializeField] public string[] taskList;// = { "Drop the lab", "ETH circuits", "Mouse algorithm", "Switch", "Make a game", "Delete the recycle bin", "Put the plush corectly" };
-    [SerializeField] public GameObject listOfTasks;
-    
+    //[SerializeField] public GameObject listOfTasks;
+
     private bool isMine;
     public int numberOfTasksPerPlayer;
     // Start is called before the first frame update
@@ -21,13 +21,19 @@ public class TaskSpreader : MonoBehaviourPunCallbacks
         Transform myObjectTransform = myObject.transform;
         var myObjectList = new List<GameObject>(myObjectTransform.GetComponentsInChildren<Transform>().Select(t => t.gameObject));
         myObjectList.Remove(myObject);
-        taskList=myObjectList.Select(t => t.name).ToArray();
+        taskList = myObjectList.Select(t => t.name).ToArray();
     }
     void Start()
     {
         if (PhotonNetwork.IsMasterClient)
         {
             AssignTasks();
+            ExitGames.Client.Photon.Hashtable playerProperties = new ExitGames.Client.Photon.Hashtable();
+            playerProperties["Taskbar"] = 0;
+            PhotonNetwork.CurrentRoom.SetCustomProperties(playerProperties);
+            ExitGames.Client.Photon.Hashtable tasksNumber = new ExitGames.Client.Photon.Hashtable();
+            playerProperties["numberOfTasksPerPlayer"] = numberOfTasksPerPlayer;
+            PhotonNetwork.CurrentRoom.SetCustomProperties(playerProperties);
         }
 
     }
@@ -35,7 +41,7 @@ public class TaskSpreader : MonoBehaviourPunCallbacks
     void AssignTasks()
     {
         Debug.Log("AssignTasks");
-        List<int> playerIds=new List<int>(PhotonNetwork.CurrentRoom.Players.Keys);
+        List<int> playerIds = new List<int>(PhotonNetwork.CurrentRoom.Players.Keys);
         ShuffleList<int>(playerIds);
         List<string> taskListCopy = new List<string>(taskList);
         foreach (int id in playerIds)

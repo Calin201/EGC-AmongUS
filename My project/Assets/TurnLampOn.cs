@@ -1,3 +1,5 @@
+using Photon.Pun;
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -40,5 +42,8 @@ public class TurnLampOn : MonoBehaviour
         GameObject taskObject = GameObject.Find("Switch");
         Outline outline = taskObject.GetComponent<Outline>();
         outline.enabled = false;
+        ExitGames.Client.Photon.Hashtable playerProperties = new ExitGames.Client.Photon.Hashtable();
+        playerProperties["Taskbar"] = int.Parse(PhotonNetwork.CurrentRoom.CustomProperties["Taskbar"].ToString()) + 1;
+        PhotonNetwork.CurrentRoom.SetCustomProperties(playerProperties);
     }
     }

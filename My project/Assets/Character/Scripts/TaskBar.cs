@@ -1,9 +1,13 @@
+using Photon.Pun;
+using Photon.Realtime;
+
 using System.Collections;
 using System.Collections.Generic;
+
 using UnityEngine;
 using UnityEngine.UI;
 
-public class TaskBar : MonoBehaviour
+public class TaskBar : MonoBehaviourPunCallbacks
 {
     public Slider slider;
     public int maxTasks = 100;
@@ -18,15 +22,12 @@ public class TaskBar : MonoBehaviour
     }
     public void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            TaskDone(10);
-        }
+
     }
     public void SetMaxTask(int tast)
     {
         slider.maxValue = tast;
-        slider.value = tast;
+        //slider.value = tast;
     }
 
     public void SetMinTask(int tast)
@@ -39,11 +40,27 @@ public class TaskBar : MonoBehaviour
     {
         slider.value = task;
     }
-    void TaskDone(int task)
+
+
+
+
+    public void TaskDone(int task)
     {
-        currentTasksCompleted += task;
+        currentTasksCompleted = task;
         taskbar.SetTasks(currentTasksCompleted);
         slider.value = currentTasksCompleted;
+        Debug.Log("aiciiiii nu merge");
     }
-    
+
+    public override void OnRoomPropertiesUpdate(ExitGames.Client.Photon.Hashtable propertiesThatChanged)
+    {
+        if (propertiesThatChanged.ContainsKey("Taskbar"))
+        {
+            TaskDone(int.Parse(PhotonNetwork.CurrentRoom.CustomProperties["Taskbar"].ToString()));
+        }
+        if(propertiesThatChanged.ContainsKey("numberOfTasksPerPlayer"))
+        {
+            SetMaxTask(int.Parse(PhotonNetwork.CurrentRoom.CustomProperties["numberOfTasksPerPlayer"].ToString())*(PhotonNetwork.CurrentRoom.Players.Count-1));
+        }
+    }
 }

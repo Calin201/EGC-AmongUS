@@ -143,7 +143,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &100236326
 Transform:
   m_ObjectHideFlags: 0
@@ -152,12 +152,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 100236325}
   m_LocalRotation: {x: -0, y: -0, z: -0.375438, w: 0.9268475}
-  m_LocalPosition: {x: 42.09, y: 41.252052, z: -200.96}
+  m_LocalPosition: {x: 3.1510162, y: 2.3600006, z: 18.656204}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1458887602}
-  m_RootOrder: 0
+  m_Father: {fileID: 0}
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -44.103}
 --- !u!135 &100236327
 SphereCollider:
@@ -273,7 +273,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &188996900
 Transform:
   m_ObjectHideFlags: 0
@@ -282,12 +282,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 188996899}
   m_LocalRotation: {x: -0, y: -0, z: -0.0310589, w: 0.9995176}
-  m_LocalPosition: {x: 23.6, y: 40.01, z: -209.39}
+  m_LocalPosition: {x: -15.338984, y: 1.1179466, z: 10.226212}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1458887602}
-  m_RootOrder: 4
+  m_Father: {fileID: 0}
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -3.56}
 --- !u!114 &188996901
 MonoBehaviour:
@@ -485,7 +485,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1458887602}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -44.103}
 --- !u!135 &375616086
 SphereCollider:
@@ -1121,7 +1121,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &875928188
 Transform:
   m_ObjectHideFlags: 0
@@ -1130,12 +1130,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 875928187}
   m_LocalRotation: {x: -0, y: -0, z: -0.0310589, w: 0.9995176}
-  m_LocalPosition: {x: 31.89, y: 39.49, z: -204.86}
+  m_LocalPosition: {x: -7.0489845, y: 0.59795, z: 14.75621}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1458887602}
-  m_RootOrder: 2
+  m_Father: {fileID: 0}
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -3.56}
 --- !u!114 &875928189
 MonoBehaviour:
@@ -1259,11 +1259,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 100236326}
   - {fileID: 375616085}
-  - {fileID: 875928188}
   - {fileID: 1792859698}
-  - {fileID: 188996900}
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1618,14 +1615,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   taskList:
   - Drop the lab
-  - ETH circuits
-  - Mouse algorithm
   - Switch
-  - Make a game
-  - Delete the recycle bin
-  - Put the plush corectly
-  listOfTasks: {fileID: 0}
-  numberOfTasksPerPlayer: 7
+  numberOfTasksPerPlayer: 2
 --- !u!1 &1785082890
 GameObject:
   m_ObjectHideFlags: 0
@@ -1778,7 +1769,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1458887602}
-  m_RootOrder: 3
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -3.56}
 --- !u!114 &1792859699
 MonoBehaviour:

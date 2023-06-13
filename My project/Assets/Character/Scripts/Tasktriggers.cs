@@ -1,6 +1,9 @@
+using Photon.Pun;
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
+
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -17,6 +20,7 @@ public class Tasktriggers : MonoBehaviour
 
     private Collider2D labCollider;
     private Collider2D binCollider;
+
 
     private void Start()
     {
@@ -37,11 +41,15 @@ public class Tasktriggers : MonoBehaviour
             GameObject taskObject = GameObject.Find("Drop the lab");
             Outline outline = taskObject.GetComponent<Outline>();
             outline.enabled = false;
-        } //merge 
-        //mai trebuie adaugat + 1 pt taskbar 
-        //sa nu mai poti intra pe el dupa ce e gata
-        //si sa dispara outline cand e gata 
-        //pun in panel ala cu verde task ul 
+            // score += 10;
+
+
+            ExitGames.Client.Photon.Hashtable playerProperties = new ExitGames.Client.Photon.Hashtable();
+            playerProperties["Taskbar"] = int.Parse(PhotonNetwork.CurrentRoom.CustomProperties["Taskbar"].ToString()) + 1;
+            PhotonNetwork.CurrentRoom.SetCustomProperties(playerProperties);
+
+
+        }
 
     }
 }
