@@ -1,0 +1,11 @@
+Model Information:
+* title:	Class table
+* source:	https://sketchfab.com/3d-models/class-table-58b1c07a3bb440f9b7fc20d809792d7a
+* author:	Tahir.Muhamad.Ajmal. (https://sketchfab.com/Tahir.Muhamad.Ajmal.)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Class table" (https://sketchfab.com/3d-models/class-table-58b1c07a3bb440f9b7fc20d809792d7a) by Tahir.Muhamad.Ajmal. (https://sketchfab.com/Tahir.Muhamad.Ajmal.) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

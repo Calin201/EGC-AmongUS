@@ -1,0 +1,11 @@
+Model Information:
+* title:	Office doors
+* source:	https://sketchfab.com/3d-models/office-doors-6515d00b831b461695d01591a5b732fd
+* author:	Sousinho (https://sketchfab.com/sousinho)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Office doors" (https://sketchfab.com/3d-models/office-doors-6515d00b831b461695d01591a5b732fd) by Sousinho (https://sketchfab.com/sousinho) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

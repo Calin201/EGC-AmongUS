@@ -1,0 +1,11 @@
+Model Information:
+* title:	Digital Multi-meter
+* source:	https://sketchfab.com/3d-models/digital-multi-meter-248dd1c8a2194f8c8ff8c52a8fb1d927
+* author:	danish444ahmed (https://sketchfab.com/danish444ahmed)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Digital Multi-meter" (https://sketchfab.com/3d-models/digital-multi-meter-248dd1c8a2194f8c8ff8c52a8fb1d927) by danish444ahmed (https://sketchfab.com/danish444ahmed) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

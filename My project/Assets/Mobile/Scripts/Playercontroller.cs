@@ -42,7 +42,7 @@ public class Playercontroller : MonoBehaviourPun
     Playercontroller target;
     [SerializeField] Collider myColider;
 
-    bool isDead;
+    [SerializeField]bool isDead;
 
     public GameObject panel;
     public GameObject button2UI;
@@ -104,6 +104,7 @@ public class Playercontroller : MonoBehaviourPun
     {
         if (photonView)
         {
+            if(!isDead) 
             //movement
             {
                 mouseinput = new Vector2(Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y")) * mouseSensitivity;
@@ -155,7 +156,7 @@ public class Playercontroller : MonoBehaviourPun
                 charCon.Move(movement * activeMoveSpeed * Time.deltaTime);
             }
             //end movement
-
+        
             //mouse locking/unlocking
             if (Input.GetKeyDown(KeyCode.Escape))
             {
@@ -389,11 +390,11 @@ public class Playercontroller : MonoBehaviourPun
     {
         if (photonView.IsMine)
         {
-            names.text = PhotonNetwork.NickName + " " + PhotonNetwork.LocalPlayer.CustomProperties["Role"];
+            names.text = PhotonNetwork.NickName;
         }
         else
         {
-            names.text = GetComponent<PhotonView>().Owner.NickName + " " + GetComponent<PhotonView>().Owner.CustomProperties["Role"];
+            names.text = GetComponent<PhotonView>().Owner.NickName ;
         }
     }
 }
