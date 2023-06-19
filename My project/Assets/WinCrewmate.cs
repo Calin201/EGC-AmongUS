@@ -23,16 +23,8 @@ public class WinCrewmate : MonoBehaviourPunCallbacks
         {
             if (PhotonNetwork.InRoom)
             {
-                if (PhotonNetwork.LocalPlayer.IsMasterClient)
-                {
-                    // Jucătorul local este gazda și părăsește camera
-                    PhotonNetwork.LeaveRoom();
-                }
-                else
-                {
-                    // Jucătorul local nu este gazda și părăsește camera
-                    photonView.RPC("LeaveRoom", RpcTarget.MasterClient);
-                }
+                // Deconectăm de la server
+                PhotonNetwork.Disconnect();
             }
 
             Win_panel.SetActive(false);
@@ -40,19 +32,15 @@ public class WinCrewmate : MonoBehaviourPunCallbacks
         }
     }
 
-    [PunRPC]
-    private void LeaveRoom()
-    {
-        if (PhotonNetwork.IsConnectedAndReady)
-        {
-            PhotonNetwork.LeaveRoom();
-        }
-    }
-
     public override void OnLeftRoom()
     {
-        Win_panel.SetActive(false);
-        SceneManager.LoadScene("Main Menu");
+        // Verificăm dacă jucătorul local este în cameră
+        if (PhotonNetwork.LocalPlayer != null && PhotonNetwork.LocalPlayer.IsLocal)
+        {
+            // Jucătorul local a părăsit camera
+            Win_panel.SetActive(false);
+            SceneManager.LoadScene("Main Menu");
+        }
     }
 
     public override void OnPlayerLeftRoom(Player otherPlayer)
@@ -63,30 +51,5 @@ public class WinCrewmate : MonoBehaviourPunCallbacks
             Win_panel.SetActive(false);
             SceneManager.LoadScene("Main Menu");
         }
-    }
-
-    public override void OnMasterClientSwitched(Player newMasterClient)
-    {
-        if (PhotonNetwork.LocalPlayer == newMasterClient)
-        {
-            // Jucătorul local este noul gazdă
-        }
-        else
-        {
-            // Gazda anterioară s-a deconectat
-            if (PhotonNetwork.LocalPlayer.IsMasterClient)
-            {
-                // Jucătorul local este noul gazdă și părăsește camera
-                PhotonNetwork.LeaveRoom();
-            }
-            else
-            {
-                // Jucătorul local nu este gazdă și părăsește camera
-                photonView.RPC("LeaveRoom", RpcTarget.MasterClient);
-            }
-        }
-
-        Win_panel.SetActive(false);
-        SceneManager.LoadScene("Main Menu");
     }
 }

@@ -127,6 +127,14 @@ public class Launcher : MonoBehaviourPunCallbacks
         }
     }
 
+    public void GoToMenu()
+    {
+        CloseMenu();
+        menuButtons.SetActive(true);
+    }
+
+
+
     public override void OnJoinedRoom()
     {
         CloseMenu();
@@ -198,10 +206,12 @@ public class Launcher : MonoBehaviourPunCallbacks
 
     public void LeaveRoom()
     {
-        PhotonNetwork.LeaveRoom();
+      //  PhotonNetwork.LeaveRoom();
         CloseMenu();
-        loadingtext.text = "Leaving Room...";
-        loadingScreen.SetActive(true);
+      //  loadingtext.text = "Leaving Room...";
+       // loadingScreen.SetActive(true);
+       // CloseMenu();
+        menuButtons.SetActive(true);
 
     }
 
