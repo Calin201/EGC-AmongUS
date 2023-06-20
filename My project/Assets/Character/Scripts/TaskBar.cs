@@ -16,6 +16,7 @@ public class TaskBar : MonoBehaviourPunCallbacks
     public TaskBar taskbar;
 
     public GameObject Win_panel;
+    public GameObject Lose_panel;
     public Button Exit;
     private void Start()
     {
@@ -73,6 +74,13 @@ public class TaskBar : MonoBehaviourPunCallbacks
         if(propertiesThatChanged.ContainsKey("numberOfTasksPerPlayer"))
         {
             SetMaxTask(int.Parse(PhotonNetwork.CurrentRoom.CustomProperties["numberOfTasksPerPlayer"].ToString())*(PhotonNetwork.CurrentRoom.Players.Count-1));
+        }
+        if(propertiesThatChanged.ContainsKey("No.Players"))
+        {
+            if(int.Parse(PhotonNetwork.CurrentRoom.CustomProperties["No.Players"].ToString())==1)
+            {
+                Lose_panel.SetActive(true);
+            }
         }
     }
 }

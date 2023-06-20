@@ -9,7 +9,7 @@ public class WinCrewmate : MonoBehaviourPunCallbacks
 {
     public GameObject Win_panel;
     public Button Exit;
-
+    public GameObject player;
     private void Start()
     {
         Exit.onClick.AddListener(ExitGame);
@@ -19,19 +19,13 @@ public class WinCrewmate : MonoBehaviourPunCallbacks
     {
         Debug.Log("ExitGame() called");
 
-        if (PhotonNetwork.IsConnectedAndReady)
-        {
-            if (PhotonNetwork.InRoom)
-            {
-                // Deconectăm de la server
-                PhotonNetwork.Disconnect();
-            }
+            Exxit();//Invoke("Exxit", 5.0f);
 
-            Win_panel.SetActive(false);
-            SceneManager.LoadScene("Main Menu");
-        }
     }
-
+    void Exxit()
+    {
+       player.GetComponent<RandomColor>().Exit();
+    }
     public override void OnLeftRoom()
     {
         // Verificăm dacă jucătorul local este în cameră

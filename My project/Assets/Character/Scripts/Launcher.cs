@@ -51,7 +51,7 @@ public class Launcher : MonoBehaviourPunCallbacks
 
         loadingScreen.SetActive(true);
         loadingtext.text = "Connecting To Network...";
-
+        PhotonNetwork.Disconnect();
         PhotonNetwork.ConnectUsingSettings();
 
     }
@@ -265,7 +265,7 @@ public class Launcher : MonoBehaviourPunCallbacks
 
     public void SetNickName()
     {
-        if(!string.IsNullOrEmpty(nameInputText.text))
+        if(!string.IsNullOrEmpty(nameInputText.text) && nameInputText.text.Length>1)
         {
             PhotonNetwork.NickName = nameInputText.text;
 
@@ -301,6 +301,7 @@ public class Launcher : MonoBehaviourPunCallbacks
                 int roleIndex = i % roles.Length;
                 players[i].SetCustomProperties(new ExitGames.Client.Photon.Hashtable { { "Role", roles[roleIndex] } });
             }
+            PhotonNetwork.CurrentRoom.SetCustomProperties(new ExitGames.Client.Photon.Hashtable { {"No.Players", players.Count} });
         }
         
 

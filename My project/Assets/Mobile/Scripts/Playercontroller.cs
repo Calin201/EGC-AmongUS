@@ -42,7 +42,7 @@ public class Playercontroller : MonoBehaviourPun
     Playercontroller target;
     [SerializeField] Collider myColider;
 
-    [SerializeField]bool isDead;
+    [SerializeField] bool isDead;
 
     public GameObject panel;
     public GameObject button2UI;
@@ -56,7 +56,7 @@ public class Playercontroller : MonoBehaviourPun
     private bool isCurrentTaskOutlineActive = false;
     private bool doingTask = false;
     private string nume;
-
+    private bool cooldown = false;
     private void Awake()
     {
         if (photonView.IsMine)
@@ -104,7 +104,7 @@ public class Playercontroller : MonoBehaviourPun
     {
         if (photonView)
         {
-            if(!isDead) 
+            if (!isDead)
             //movement
             {
                 mouseinput = new Vector2(Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y")) * mouseSensitivity;
@@ -156,7 +156,7 @@ public class Playercontroller : MonoBehaviourPun
                 charCon.Move(movement * activeMoveSpeed * Time.deltaTime);
             }
             //end movement
-        
+
             //mouse locking/unlocking
             if (Input.GetKeyDown(KeyCode.Escape))
             {
@@ -166,7 +166,7 @@ public class Playercontroller : MonoBehaviourPun
             {
                 if (Input.GetMouseButtonDown(0))
                 {
-                    if(!panelActive)
+                    if (!panelActive)
                     {
                         Cursor.lockState = CursorLockMode.Locked;
 
@@ -176,29 +176,29 @@ public class Playercontroller : MonoBehaviourPun
             //kill command
             if (Input.GetKeyDown(KeyCode.K))
             {
-                photonView.RPC("KillTarget", RpcTarget.All);
+                KillTarget();
             }
 
             if (Input.GetKeyDown(KeyCode.E) && isCurrentTaskOutlineActive)
             {
                 panelActive = !panelActive;
-                if(nume=="ETH circuits")
+                if (nume == "ETH circuits")
                 {
                     ETH_Canvas.SetActive(panelActive);
                 }
                 else
-                    if(nume=="Drop the lab")
+                    if (nume == "Drop the lab")
                 {
                     Drop_The_Lab.SetActive(panelActive);
                 }
                 else
                 {
-                    if(nume=="Switch")
+                    if (nume == "Switch")
                     {
                         Switch.SetActive(panelActive);
                     }
                 }
-               
+
                 Cursor.visible = true;
                 Cursor.lockState = CursorLockMode.None;
                 doingTask = !doingTask;
@@ -207,6 +207,10 @@ public class Playercontroller : MonoBehaviourPun
         }
     }
 
+    void ResetCooldown()
+    {
+        cooldown = false;
+    }
     private bool IsTaskOutlineActive(string taskName)
     {
         GameObject taskObject = GameObject.Find(taskName);
@@ -273,12 +277,12 @@ public class Playercontroller : MonoBehaviourPun
         }
         if (other.CompareTag("TaskItem") && instance.role == "Crewmate")
         {
-           
+
             // Image buttonImage = panel.GetComponentInChildren<Image>();
             string taskName = other.gameObject.name;
             if (instance.role == "Crewmate")
             {
-                    if(IsTaskOutlineActive(taskName))
+                if (IsTaskOutlineActive(taskName))
                 {
                     panel.SetActive(true);
                     Sprite defaultSprite = Resources.Load<Sprite>("qvorpkw1cxy51");
@@ -338,9 +342,9 @@ public class Playercontroller : MonoBehaviourPun
         }
     }
 
-    [PunRPC]
     void KillTarget()
     {
+
         if (!photonView.IsMine)
         {
             return;
@@ -353,38 +357,52 @@ public class Playercontroller : MonoBehaviourPun
         }
         else
         {
+
             //a target in range
             if (target.isDead)
             {
                 //a dead target in range
                 return;
             }
-            //asigning target 
-            instance.transform.position = target.transform.position;
-            //killing target
-            target.Die();
-            //unasigning target
-            target = null;
+            if (cooldown == false)
+            {
+                //asigning target 
+                instance.transform.position = target.transform.position;
+                //killing target
+                target.photonView.RPC("Die", RpcTarget.All);
+                //unasigning target
+                target = null;
+                PhotonNetwork.CurrentRoom.SetCustomProperties(new ExitGames.Client.Photon.Hashtable { { "No.Players", int.Parse(PhotonNetwork.CurrentRoom.CustomProperties["No.Players"].ToString()) - 1 } });
+                Invoke("ResetCooldown", 5.0f);
+                cooldown = true;
+            }
         }
 
         Debug.Log("KILLED");
     }
+    [PunRPC]
     public void Die()
     {
-        //if (photonView.IsMine)
-        //{
-        instance.isDead = true;
-        //WIP maybe the player will be disabled
-        instance.myColider.enabled = false;
-        //WIP we make him black for now
-        photonView.RPC("DieChanges", RpcTarget.All);
-        //}
+
+        DieChanges();
     }
-    [PunRPC]
+
     void DieChanges()
     {
+        if (!photonView.IsMine)
+        {
+            return;
+        }
+
+        photonView.RPC("Die2", RpcTarget.All);
+
+    }
+    [PunRPC]
+    void Die2()
+    {
         GetComponent<Renderer>().material.color = Color.black;
-        instance.names.text += "DEAD";
+        isDead = true;
+        names.text += "DEAD";
     }
     private void setName()
     {
@@ -394,7 +412,7 @@ public class Playercontroller : MonoBehaviourPun
         }
         else
         {
-            names.text = GetComponent<PhotonView>().Owner.NickName ;
+            names.text = GetComponent<PhotonView>().Owner.NickName;
         }
     }
 }
